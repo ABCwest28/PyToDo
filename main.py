@@ -22,11 +22,13 @@ class WidgetToDo(QMainWindow):
         self.table = QTableWidget(self)
 
         self.task_line = QLineEdit(self)
+        self.task_line.textChanged.connect(self.enable_disable_button)
 
         self.task_date = QDateEdit(self)
         self.task_date.setCalendarPopup(True)
 
         self.task_btn = QPushButton(self)
+        self.task_btn.setEnabled(False)
         self.task_btn.setText("Добавить")
         self.task_btn.clicked.connect(self.addTask)
 
@@ -51,6 +53,12 @@ class WidgetToDo(QMainWindow):
         self.sizePolicy_task_line = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
         self.sizePolicy_task_line.setHorizontalStretch(100)
         self.task_line.setSizePolicy(self.sizePolicy_task_line)
+
+    def enable_disable_button(self):
+        if self.task_line.text():
+            self.task_btn.setEnabled(True)
+        else:
+            self.task_btn.setEnabled(False)
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Подтверждение',
