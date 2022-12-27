@@ -73,6 +73,8 @@ class WidgetToDo(QMainWindow):
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
         self.table.verticalHeader().setVisible(False)
 
+        self.table.cellDoubleClicked.connect(self.rowSelected)
+
         self.table.setRowCount(0)
 
     def closeEvent(self, event):
@@ -173,6 +175,15 @@ class WidgetToDo(QMainWindow):
             if sqlite_connection:
                 sqlite_connection.close()
                 print("outputTaskTable->Соединение с SQLite закрыто")
+
+    def completeTask(self):
+        pass
+
+    def rowSelected(self):
+        print("rowSelected->Выбрана ячейка")
+        selectedRow = int(self.table.currentRow())
+        number = int(self.table.item(selectedRow, 0).text())
+        print(number)
 
 
 if __name__ == '__main__':
