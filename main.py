@@ -1,5 +1,6 @@
 import sys
 import datetime
+import sqlite3
 from PyQt5.QtWidgets import *
 
 
@@ -79,7 +80,29 @@ class WidgetToDo(QMainWindow):
         print(f"addTask->task_date:{self.task_date.text()}")
         self.statusBar().showMessage(f"Новая задача: {self.task_line.text()}. Дата: {self.task_date.text()}")
 
+        try:
+            sqlite_connection = sqlite3.connect('TasksDataBase.db')
+            cursor = sqlite_connection.cursor()
+            print("addTask->Подключен к SQLite")
 
+            sqlite_insert_with_param = """INSERT INTO TasksTable (text, date, isComplete)
+                                          VALUES (?, ?, ?);"""
+            data_tuple = (self.task_line.text(), self.task_date.text(), False)
+            cursor.execute(sqlite_insert_with_param, data_tuple)
+            sqlite_connection.commit()
+
+            print("addTask->Запись успешно добавлена")
+
+            cursor.close()
+            #нужно добавить обновление таблицы
+
+        except sqlite3.Error as error:
+            print("addTask->Ошибка при работе с SQLite", error)
+            self.statusBar().showMessage(f"Ошибка при работе с SQLite: {error}")
+        finally:
+            if sqlite_connection:
+                sqlite_connection.close()
+                print("addTask->Соединение с SQLite закрыто")
 
 
 if __name__ == '__main__':
