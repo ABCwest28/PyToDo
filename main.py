@@ -1,4 +1,5 @@
 import sys
+import datetime
 from PyQt5.QtWidgets import *
 
 
@@ -37,6 +38,7 @@ class WidgetToDo(QMainWindow):
         self.setLayout(self.vbox)
 
         self.setCentralWidget(self.wrapper)
+        self.getTodayDate()
         self.show()
 
     def closeEvent(self, event):
@@ -54,10 +56,20 @@ class WidgetToDo(QMainWindow):
         my_frame_geom.moveCenter(screen_center)
         self.move(my_frame_geom.topLeft())
 
+    def getTodayDate(self):
+        now = datetime.datetime.now()
+        str = now.strftime("%d.%m.%Y")
+        print(f"getTodayDate->date:{str}")
+        self.statusBar().showMessage(f"{str}: Запущено")
+        self.task_date.setMinimumDate(now)
+        return str
+
     def addTask(self):
         print(f"addTask->task_text:{self.task_line.text()}")
         print(f"addTask->task_date:{self.task_date.text()}")
-        self.statusBar().showMessage(f"Новая задача: {self.task_line.text()}. Время: {self.task_date.text()}")
+        self.statusBar().showMessage(f"Новая задача: {self.task_line.text()}. Дата: {self.task_date.text()}")
+
+
 
 
 if __name__ == '__main__':
