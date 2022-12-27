@@ -17,27 +17,31 @@ class WidgetToDo(QMainWindow):
         self.setWindowToCenter()
 
         self.vbox = QVBoxLayout(self.wrapper)
-        self.vbox.setSpacing(10)
-
         self.h1box = QHBoxLayout(self.wrapper)
 
-        self.table = QTableWidget(self.wrapper)
-        self.vbox.addWidget(self.table)
-        self.vbox.addLayout(self.h1box)
+        self.table = QTableWidget(self)
 
         self.task_line = QLineEdit(self)
-        self.h1box.addWidget(self.task_line)
 
         self.task_date = QDateEdit(self)
         self.task_date.setCalendarPopup(True)
 
-        self.h1box.addWidget(self.task_date)
-
         self.task_btn = QPushButton(self)
         self.task_btn.setText("Добавить")
         self.task_btn.clicked.connect(self.addTask)
-        self.h1box.addWidget(self.task_btn)
 
+        self.layout_sizePol_init()
+        self.setCentralWidget(self.wrapper)
+        self.getTodayDate()
+        self.show()
+
+    def layout_sizePol_init(self):
+        self.vbox.setSpacing(10)
+        self.vbox.addWidget(self.table)
+        self.vbox.addLayout(self.h1box)
+        self.h1box.addWidget(self.task_line)
+        self.h1box.addWidget(self.task_date)
+        self.h1box.addWidget(self.task_btn)
         self.setLayout(self.vbox)
 
         self.sizePolicy_task_date = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
@@ -47,10 +51,6 @@ class WidgetToDo(QMainWindow):
         self.sizePolicy_task_line = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
         self.sizePolicy_task_line.setHorizontalStretch(100)
         self.task_line.setSizePolicy(self.sizePolicy_task_line)
-
-        self.setCentralWidget(self.wrapper)
-        self.getTodayDate()
-        self.show()
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Подтверждение',
