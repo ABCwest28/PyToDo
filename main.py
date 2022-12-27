@@ -5,6 +5,7 @@ import sqlite3
 from PyQt5.QtGui import QFont, QFontDatabase
 from PyQt5.QtWidgets import *
 
+import font_resources_rc
 
 class WidgetToDo(QMainWindow):
     def __init__(self):
@@ -222,14 +223,18 @@ class WidgetToDo(QMainWindow):
         self.completeTask(number, isCompleted)
 
     def set_font(self):
-        #fontId = QFontDatabase.addApplicationFont(":/Fonts/fontawesome-webfont.ttf")
-        self.font = QFont()  # создаём объект шрифта
-        self.font.setFamily("Rubik")  # название шрифта
-        self.font.setPointSize(10)  # размер шрифта
-        self.task_btn.setFont(self.font)
-        self.task_date.setFont(self.font)
-        self.task_line.setFont(self.font)
-        self.table.setFont(self.font)
+        fontId = QFontDatabase.addApplicationFont(":/fonts/GoogleSans-Regular.ttf")
+
+        if fontId == 0:
+            fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
+            self.font0 = QFont(fontName, 30)
+        else:
+            self.font0 = QFont()
+
+        self.font0.setPointSize(10)
+
+        self.setFont(self.font0)
+        self.table.setFont(self.font0)
 
 
 if __name__ == '__main__':
