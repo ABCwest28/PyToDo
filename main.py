@@ -13,22 +13,25 @@ class WidgetToDo(QMainWindow):
         self.setWindowTitle('PyToDo')
         self.statusBar().showMessage("Started")
         self.setWindowToCenter()
+
         self.vbox = QVBoxLayout(self.wrapper)
         self.vbox.setSpacing(10)
+
         self.h1box = QHBoxLayout(self.wrapper)
-        table = QTableWidget(self.wrapper)
-        table.resize(480, 400)
-        self.vbox.addWidget(table)
+
+        self.table = QTableWidget(self.wrapper)
+        self.vbox.addWidget(self.table)
         self.vbox.addLayout(self.h1box)
-        task_line = QLineEdit(self)
-        task_line.resize(200, 30)
-        self.h1box.addWidget(task_line)
-        task_date = QDateEdit(self)
-        task_date.resize(140, 30)
-        self.h1box.addWidget(task_date)
-        task_btn = QPushButton(self)
-        task_btn.resize(20, 30)
-        self.h1box.addWidget(task_btn)
+
+        self.task_line = QLineEdit(self)
+        self.h1box.addWidget(self.task_line)
+
+        self.task_date = QDateEdit(self)
+        self.h1box.addWidget(self.task_date)
+
+        self.task_btn = QPushButton(self)
+        self.h1box.addWidget(self.task_btn)
+
         self.setLayout(self.vbox)
 
         self.setCentralWidget(self.wrapper)
