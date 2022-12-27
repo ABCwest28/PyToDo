@@ -28,6 +28,8 @@ class WidgetToDo(QMainWindow):
         self.h1box.addWidget(self.task_line)
 
         self.task_date = QDateEdit(self)
+        self.task_date.setCalendarPopup(True)
+
         self.h1box.addWidget(self.task_date)
 
         self.task_btn = QPushButton(self)
@@ -36,6 +38,14 @@ class WidgetToDo(QMainWindow):
         self.h1box.addWidget(self.task_btn)
 
         self.setLayout(self.vbox)
+
+        self.sizePolicy_task_date = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.sizePolicy_task_date.setHorizontalStretch(30)
+        self.task_date.setSizePolicy(self.sizePolicy_task_date)
+
+        self.sizePolicy_task_line = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.sizePolicy_task_line.setHorizontalStretch(100)
+        self.task_line.setSizePolicy(self.sizePolicy_task_line)
 
         self.setCentralWidget(self.wrapper)
         self.getTodayDate()
