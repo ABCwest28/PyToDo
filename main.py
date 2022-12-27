@@ -2,7 +2,8 @@ import sys
 import datetime
 import sqlite3
 
-from PyQt5.QtGui import QFont, QFontDatabase
+from PyQt5 import QtCore
+from PyQt5.QtGui import QFont, QFontDatabase, QBrush, QColor
 from PyQt5.QtWidgets import *
 
 import font_resources_rc
@@ -154,8 +155,10 @@ class WidgetToDo(QMainWindow):
                 self.table.setItem(n, 2, QTableWidgetItem(i[2]))
                 if i[3] == 0:
                     self.table.setItem(n, 3, QTableWidgetItem("не выполнено"))
+                    self.table.item(n, 3).setBackground(QColor(100, 100, 150, 64))
                 elif i[3] == 1:
                     self.table.setItem(n, 3, QTableWidgetItem("выполнено"))
+                    self.table.item(n, 3).setBackground(QColor(0, 250, 150, 64))
                 n += 1
 
             for i in result_1:
@@ -165,8 +168,10 @@ class WidgetToDo(QMainWindow):
                 self.table.setItem(n, 2, QTableWidgetItem(i[2]))
                 if i[3] == 0:
                     self.table.setItem(n, 3, QTableWidgetItem("не выполнено"))
+                    self.table.item(n, 3).setBackground(QColor(100, 100, 150, 64))
                 elif i[3] == 1:
                     self.table.setItem(n, 3, QTableWidgetItem("выполнено"))
+                    self.table.item(n, 3).setBackground(QColor(0, 250, 150, 64))
                 n += 1
 
             cursor.close()
