@@ -33,6 +33,7 @@ class WidgetToDo(QMainWindow):
         self.task_btn.clicked.connect(self.addTask)
 
         self.layout_sizePol_init()
+        self.table_init()
         self.setCentralWidget(self.wrapper)
         self.getTodayDate()
         self.show()
@@ -59,6 +60,10 @@ class WidgetToDo(QMainWindow):
             self.task_btn.setEnabled(True)
         else:
             self.task_btn.setEnabled(False)
+
+    def table_init(self):
+        self.table.setColumnCount(4)
+        self.table.setHorizontalHeaderLabels(["Номер", "Задача", "Дата", "Статус"])
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Подтверждение',
