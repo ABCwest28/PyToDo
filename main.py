@@ -71,6 +71,7 @@ class WidgetToDo(QMainWindow):
         self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        self.table.verticalHeader().setVisible(False)
 
         self.table.setRowCount(0)
 
