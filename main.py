@@ -65,6 +65,12 @@ class WidgetToDo(QMainWindow):
         self.table.setColumnCount(4)
         self.table.setHorizontalHeaderLabels(["Номер", "Задача", "Дата", "Статус"])
 
+        #self.table.horizontalHeader().setStretchLastSection(True)
+        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Подтверждение',
                 "Подтвердите выход", QMessageBox.Yes |
