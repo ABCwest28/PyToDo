@@ -6,14 +6,19 @@ class WidgetToDo(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.list_widget = QListWidget()
 
     def initUI(self):
         self.resize(500, 500)
         self.setObjectName("WidgetToDo")
         self.setWindowTitle('PyToDo')
+
         self.setWindowToCenter()
         self.statusBar().showMessage("Started")
+
+        btn = QPushButton(self)
+        list_widget = QListWidget(self)
+        list_widget.setGeometry(0, 50, 200, 200)
+        btn.clicked.connect(self.addRow)
         self.show()
 
     def closeEvent(self, event):
@@ -31,12 +36,12 @@ class WidgetToDo(QMainWindow):
         my_frame_geom.moveCenter(screen_center)
         self.move(my_frame_geom.topLeft())
 
-    def newRow(self):
-        new_check_box = QCheckBox()
-        new_line_edit = QLineEdit()
-        new_button = QPushButton()
+    def addRow(self):
+        new_check_box = QCheckBox(self)
+        new_line_edit = QLineEdit(self)
+        new_button = QPushButton(self)
 
-        new_h_layout = QHBoxLayout()
+        new_h_layout = QHBoxLayout(self)
         new_h_layout.addWidget(new_check_box)
         new_h_layout.addWidget(new_line_edit)
         new_h_layout.addWidget(new_button)
