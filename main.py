@@ -11,7 +11,7 @@ class WidgetToDo(QMainWindow):
     def initUI(self):
         self.resize(500, 500)
         self.setWindowTitle('PyToDo')
-        self.statusBar().showMessage("Started")
+        self.statusBar().showMessage("Запущено")
         self.setWindowToCenter()
 
         self.vbox = QVBoxLayout(self.wrapper)
@@ -30,6 +30,8 @@ class WidgetToDo(QMainWindow):
         self.h1box.addWidget(self.task_date)
 
         self.task_btn = QPushButton(self)
+        self.task_btn.setText("Добавить")
+        self.task_btn.clicked.connect(self.addTask)
         self.h1box.addWidget(self.task_btn)
 
         self.setLayout(self.vbox)
@@ -51,6 +53,11 @@ class WidgetToDo(QMainWindow):
         screen_center = QDesktopWidget().availableGeometry().center()
         my_frame_geom.moveCenter(screen_center)
         self.move(my_frame_geom.topLeft())
+
+    def addTask(self):
+        print(f"addTask->task_text:{self.task_line.text()}")
+        print(f"addTask->task_date:{self.task_date.text()}")
+        self.statusBar().showMessage(f"Новая задача: {self.task_line.text()}. Время: {self.task_date.text()}")
 
 
 if __name__ == '__main__':
