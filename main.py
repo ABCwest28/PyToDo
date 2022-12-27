@@ -1,6 +1,8 @@
 import sys
 import datetime
 import sqlite3
+
+from PyQt5.QtGui import QFont, QFontDatabase
 from PyQt5.QtWidgets import *
 
 
@@ -37,6 +39,7 @@ class WidgetToDo(QMainWindow):
         self.setCentralWidget(self.wrapper)
         self.getTodayDate()
         self.outputTaskTable()
+        self.set_font()
         self.show()
 
     def layout_sizePol_init(self):
@@ -79,8 +82,8 @@ class WidgetToDo(QMainWindow):
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Подтверждение',
-                "Подтвердите выход", QMessageBox.Yes |
-                QMessageBox.No, QMessageBox.No)
+                                     "Подтвердите выход", QMessageBox.Yes |
+                                     QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             event.accept()
         else:
@@ -176,14 +179,57 @@ class WidgetToDo(QMainWindow):
                 sqlite_connection.close()
                 print("outputTaskTable->Соединение с SQLite закрыто")
 
-    def completeTask(self):
-        pass
+    def completeTask(self, number, isCompleted):
+        try:
+            sqlite_connection = sqlite3.connect('TasksDataBase.db')
+            cursor = sqlite_connection.cursor()
+            print("completeTask->Подключен к SQLite")
+
+            if isCompleted:
+                sqlite_select_0 = """UPDATE TasksTable SET isComplete = ? WHERE id = ?"""
+                cursor.execute(sqlite_select_0, (False, number))
+            else:
+                sqlite_select_0 = """UPDATE TasksTable SET isComplete = ? WHERE id = ?"""
+                cursor.execute(sqlite_select_0, (True, number))
+
+            sqlite_connection.commit()
+            print(f"completeTask->Данные обновлены")
+            self.outputTaskTable()
+
+            cursor.close()
+
+        except sqlite3.Error as error:
+            print("completeTask->Ошибка при работе с SQLite", error)
+            self.statusBar().showMessage(f"Ошибка при работе с SQLite: {error}")
+
+        finally:
+            if sqlite_connection:
+                sqlite_connection.close()
+                print("completeTask->Соединение с SQLite закрыто")
 
     def rowSelected(self):
         print("rowSelected->Выбрана ячейка")
         selectedRow = int(self.table.currentRow())
         number = int(self.table.item(selectedRow, 0).text())
-        print(number)
+        strCompleted = str(self.table.item(selectedRow, 3).text())
+        if strCompleted == "не выполнено":
+            isCompleted = False
+        elif strCompleted == "выполнено":
+            isCompleted = True
+        else:
+            isCopleted == "rowSelected->не определен статус задачи"
+        print(f"{number}, {isCompleted}")
+        self.completeTask(number, isCompleted)
+
+    def set_font(self):
+        #fontId = QFontDatabase.addApplicationFont(":/Fonts/fontawesome-webfont.ttf")
+        self.font = QFont()  # создаём объект шрифта
+        self.font.setFamily("Rubik")  # название шрифта
+        self.font.setPointSize(10)  # размер шрифта
+        self.task_btn.setFont(self.font)
+        self.task_date.setFont(self.font)
+        self.task_line.setFont(self.font)
+        self.table.setFont(self.font)
 
 
 if __name__ == '__main__':
