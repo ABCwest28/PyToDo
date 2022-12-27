@@ -36,6 +36,7 @@ class WidgetToDo(QMainWindow):
         self.table_init()
         self.setCentralWidget(self.wrapper)
         self.getTodayDate()
+        self.outputTaskTable()
         self.show()
 
     def layout_sizePol_init(self):
@@ -70,6 +71,8 @@ class WidgetToDo(QMainWindow):
         self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+
+        self.table.setRowCount(0)
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Подтверждение',
@@ -111,9 +114,8 @@ class WidgetToDo(QMainWindow):
             sqlite_connection.commit()
 
             print("addTask->Запись успешно добавлена")
-
             cursor.close()
-            #нужно добавить обновление таблицы
+            self.outputTaskTable()
 
         except sqlite3.Error as error:
             print("addTask->Ошибка при работе с SQLite", error)
@@ -122,6 +124,54 @@ class WidgetToDo(QMainWindow):
             if sqlite_connection:
                 sqlite_connection.close()
                 print("addTask->Соединение с SQLite закрыто")
+
+    def outputTaskTable(self):
+        try:
+            sqlite_connection = sqlite3.connect('TasksDataBase.db')
+            cursor = sqlite_connection.cursor()
+            print("outputTaskTable->Подключен к SQLite")
+
+            sqlite_select_0 = """SELECT * FROM TasksTable WHERE isComplete = '0'"""
+            cursor.execute(sqlite_select_0)
+            result_0 = cursor.fetchall()
+
+            sqlite_select_1 = """SELECT * FROM TasksTable WHERE isComplete = '1'"""
+            cursor.execute(sqlite_select_1)
+            result_1 = cursor.fetchall()
+
+            n = 0
+            for i in result_0:
+                self.table.setRowCount(n + 1)
+                self.table.setItem(n, 0, QTableWidgetItem(str(i[0])))
+                self.table.setItem(n, 1, QTableWidgetItem(i[1]))
+                self.table.setItem(n, 2, QTableWidgetItem(i[2]))
+                if i[3] == 0:
+                    self.table.setItem(n, 3, QTableWidgetItem("не выполнено"))
+                elif i[3] == 1:
+                    self.table.setItem(n, 3, QTableWidgetItem("выполнено"))
+                n += 1
+
+            for i in result_1:
+                self.table.setRowCount(n + 1)
+                self.table.setItem(n, 0, QTableWidgetItem(str(i[0])))
+                self.table.setItem(n, 1, QTableWidgetItem(i[1]))
+                self.table.setItem(n, 2, QTableWidgetItem(i[2]))
+                if i[3] == 0:
+                    self.table.setItem(n, 3, QTableWidgetItem("не выполнено"))
+                elif i[3] == 1:
+                    self.table.setItem(n, 3, QTableWidgetItem("выполнено"))
+                n += 1
+
+            cursor.close()
+
+        except sqlite3.Error as error:
+            print("outputTaskTable->Ошибка при работе с SQLite", error)
+            self.statusBar().showMessage(f"Ошибка при работе с SQLite: {error}")
+
+        finally:
+            if sqlite_connection:
+                sqlite_connection.close()
+                print("outputTaskTable->Соединение с SQLite закрыто")
 
 
 if __name__ == '__main__':
