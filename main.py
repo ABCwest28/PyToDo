@@ -3,7 +3,7 @@ import datetime
 import sqlite3
 
 from PyQt5 import QtCore
-from PyQt5.QtGui import QFont, QFontDatabase, QBrush, QColor
+from PyQt5.QtGui import QFont, QFontDatabase, QColor
 from PyQt5.QtWidgets import *
 
 import font_resources_rc
@@ -217,7 +217,7 @@ class WidgetToDo(QMainWindow):
         elif strCompleted == "выполнено":
             isCompleted = True
         else:
-            isCopleted == "rowSelected->не определен статус задачи"
+            isCopleted = "rowSelected->не определен статус задачи"
         print(f"{number}, {isCompleted}")
         self.completeTask(number, isCompleted)
 
