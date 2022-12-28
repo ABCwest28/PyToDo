@@ -26,6 +26,7 @@ class WidgetToDo(QMainWindow):
         self.table = QTableWidget(self)
 
         self.task_line = QLineEdit(self)
+        self.task_line.setPlaceholderText("Введите текст задачи")
         self.task_line.textChanged.connect(self.enable_disable_button)
 
         self.task_date = QDateEdit(self)
@@ -153,12 +154,9 @@ class WidgetToDo(QMainWindow):
                 self.table.setItem(n, 0, QTableWidgetItem(str(i[0])))
                 self.table.setItem(n, 1, QTableWidgetItem(i[1]))
                 self.table.setItem(n, 2, QTableWidgetItem(i[2]))
-                if i[3] == 0:
-                    self.table.setItem(n, 3, QTableWidgetItem("не выполнено"))
-                    self.table.item(n, 3).setBackground(QColor(100, 100, 150, 64))
-                elif i[3] == 1:
-                    self.table.setItem(n, 3, QTableWidgetItem("выполнено"))
-                    self.table.item(n, 3).setBackground(QColor(0, 250, 150, 64))
+                self.table.setItem(n, 3, QTableWidgetItem("не выполнено"))
+                self.table.item(n, 3).setBackground(QColor(50, 50, 150, 35))
+
                 n += 1
 
             for i in result_1:
@@ -166,12 +164,8 @@ class WidgetToDo(QMainWindow):
                 self.table.setItem(n, 0, QTableWidgetItem(str(i[0])))
                 self.table.setItem(n, 1, QTableWidgetItem(i[1]))
                 self.table.setItem(n, 2, QTableWidgetItem(i[2]))
-                if i[3] == 0:
-                    self.table.setItem(n, 3, QTableWidgetItem("не выполнено"))
-                    self.table.item(n, 3).setBackground(QColor(100, 100, 150, 64))
-                elif i[3] == 1:
-                    self.table.setItem(n, 3, QTableWidgetItem("выполнено"))
-                    self.table.item(n, 3).setBackground(QColor(0, 250, 150, 64))
+                self.table.setItem(n, 3, QTableWidgetItem("выполнено"))
+                self.table.item(n, 3).setBackground(QColor(0, 250, 150, 35))
                 n += 1
 
             cursor.close()
