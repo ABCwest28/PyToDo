@@ -540,7 +540,6 @@ class WidgetToDo(QMainWindow):
             self.outputTaskTable()
 
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = WidgetToDo()
